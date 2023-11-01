@@ -1,0 +1,14 @@
+diff --git a/pcap-linux.c b/pcap-linux.c
+index 86ce887..3c09617 100644
+--- a/pcap-linux.c
++++ b/pcap-linux.c
+@@ -1599,8 +1599,8 @@ get_if_flags(const char *name, bpf_u_int32 *flags, char *errbuf)
+ 				}
+ 			}
+ 			fclose(fh);
+-			free(pathstr);
+ 		}
++		free(pathstr);
+ 	}
+ 
+ #ifdef ETHTOOL_GLINK
