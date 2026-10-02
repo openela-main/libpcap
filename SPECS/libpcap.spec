@@ -1,7 +1,7 @@
 Name:     libpcap
 Epoch:    14
 Version:  1.10.4
-Release:  7%{?dist}
+Release:  7%{?dist}.1
 Summary:  A system-independent interface for user-level packet capture
 License:  ISC AND BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC
 URL:      https://www.tcpdump.org/
@@ -24,6 +24,8 @@ Source1:  https://www.tcpdump.org/release/%{name}-%{version}.tar.gz.sig
 Patch0001:      0001-man-tcpdump-and-tcpslice-have-manpages-in-man8.patch
 Patch0002:      0002-pcap-config-mitigate-multilib-conflict.patch
 Patch0003:      0003-pcap-linux-apparently-ctc-interfaces-on-s390-has-eth.patch
+# https://github.com/the-tcpdump-group/libpcap/commit/48e8960a
+Patch0004:      libpcap-1.10.4-CVE-2026-0799.patch
 
 %description
 Libpcap provides a portable framework for low-level network
@@ -93,6 +95,11 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libpcap.a
 %{_mandir}/man5/pcap*.5*
 
 %changelog
+* Wed Sep 09 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.4-7.1
+- Fix CVE-2026-0799: validate BPF scratch memory register indices
+  in the BPF interpreter to prevent out-of-bounds memory access
+  Resolves: RHEL-256921
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 14:1.10.4-7
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
