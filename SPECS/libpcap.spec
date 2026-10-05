@@ -1,7 +1,7 @@
 Name:     libpcap
 Epoch:    14
 Version:  1.9.1
-Release:  5%{?dist}
+Release:  6%{?dist}
 Summary:  A system-independent interface for user-level packet capture
 License:  BSD with advertising
 URL:      http://www.tcpdump.org
@@ -19,6 +19,8 @@ Patch0001:      0001-man-tcpdump-and-tcpslice-have-manpages-in-man8.patch
 Patch0002:      0002-pcap-config-mitigate-multilib-conflict.patch
 Patch0003:      0003-pcap-linux-apparently-ctc-interfaces-on-s390-has-eth.patch
 Patch0004:      0004-invalid-IPv4-address.patch
+# https://github.com/the-tcpdump-group/libpcap/commit/48e8960a
+Patch0005:      libpcap-1.9.1-CVE-2026-0799.patch
 
 %description
 Libpcap provides a portable framework for low-level network
@@ -86,6 +88,11 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libpcap.a
 %{_mandir}/man5/pcap*.5*
 
 %changelog
+* Wed Sep 09 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.9.1-6
+- Fix CVE-2026-0799: add bounds checks for BPF scratch memory register
+  indices in the BPF interpreter
+- Resolves: RHEL-256926
+
 * Mon Jan 18 2021 Michal Ruprich <mruprich@redhat.com> - 14:1.9.1-5
 - Resolves: #1743650 - Enable inbox support for sniffing offloaded RDMA traffic with tcpdump
 
