@@ -1,7 +1,7 @@
 Name:     libpcap
 Epoch:    14
 Version:  1.10.4
-Release:  7%{?dist}.1
+Release:  7%{?dist}.2
 Summary:  A system-independent interface for user-level packet capture
 License:  ISC AND BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC
 URL:      https://www.tcpdump.org/
@@ -25,7 +25,9 @@ Patch0001:      0001-man-tcpdump-and-tcpslice-have-manpages-in-man8.patch
 Patch0002:      0002-pcap-config-mitigate-multilib-conflict.patch
 Patch0003:      0003-pcap-linux-apparently-ctc-interfaces-on-s390-has-eth.patch
 # https://github.com/the-tcpdump-group/libpcap/commit/48e8960a
-Patch0004:      libpcap-1.10.4-CVE-2026-0799.patch
+Patch0004:      0004-fix-cve-2026-0799.patch
+# https://github.com/the-tcpdump-group/libpcap/commit/ff3c8347
+Patch0005:      0005-fix-cve-2026-6554.patch
 
 %description
 Libpcap provides a portable framework for low-level network
@@ -95,10 +97,13 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libpcap.a
 %{_mandir}/man5/pcap*.5*
 
 %changelog
-* Wed Sep 09 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.4-7.1
-- Fix CVE-2026-0799: validate BPF scratch memory register indices
-  in the BPF interpreter to prevent out-of-bounds memory access
-  Resolves: RHEL-256921
+* Mon Oct 19 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.4-7.2
+- Fix DoS via infinite loop in BPF interpreter (CVE-2026-6554)
+  Resolves: RHEL-286741
+
+* Wed Sep 16 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.4-7.1
+- Fix out-of-bounds memory access in BPF interpreter (CVE-2026-0799)
+  Resolves: RHEL-256936
 
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 14:1.10.4-7
 - Bump release for October 2024 mass rebuild:
