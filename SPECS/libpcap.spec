@@ -1,7 +1,7 @@
 Name:     libpcap
 Epoch:    14
 Version:  1.10.0
-Release:  4%{?dist}.1
+Release:  4%{?dist}.2
 Summary:  A system-independent interface for user-level packet capture
 License:  BSD with advertising
 URL:      https://www.tcpdump.org/
@@ -25,7 +25,9 @@ Patch0002:      0002-pcap-config-mitigate-multilib-conflict.patch
 Patch0003:      0003-pcap-linux-apparently-ctc-interfaces-on-s390-has-eth.patch
 Patch0004:      0004-covscan-rhel9.patch
 # https://github.com/the-tcpdump-group/libpcap/commit/48e8960a
-Patch0005:      libpcap-1.10.0-CVE-2026-0799.patch
+Patch0005:      0005-fix-cve-2026-0799.patch
+# https://github.com/the-tcpdump-group/libpcap/commit/ff3c8347
+Patch0006:      0006-fix-cve-2026-6554.patch
 
 %description
 Libpcap provides a portable framework for low-level network
@@ -95,10 +97,14 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libpcap.a
 %{_mandir}/man5/pcap*.5*
 
 %changelog
-* Wed Sep 09 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.0-4.1
+* Tue Oct 20 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.0-4.2
+- Fix DoS via infinite loop in BPF interpreter (CVE-2026-6554)
+  Resolves: RHEL-286792
+
+* Wed Sep 16 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 14:1.10.0-4.1
 - Fix CVE-2026-0799: add bounds checks for BPF scratch memory
   register indices in the BPF interpreter
-  Related: RHEL-256935
+  Resolves: RHEL-256937
 
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 14:1.10.0-4
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
